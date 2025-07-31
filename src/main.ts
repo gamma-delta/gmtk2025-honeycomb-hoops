@@ -7,7 +7,11 @@ export const CTX = CANVAS.getContext("2d") as CanvasRenderingContext2D;
 
 export const CONTROLS = new ControlsHandler(CANVAS);
 
-const puzzle = new Puzzle(3);
+const puzzle = new Puzzle(`
+ K K
+. X .
+ . .
+`);
 
 function mainLoop() {
   CTX.fillStyle = "white";
