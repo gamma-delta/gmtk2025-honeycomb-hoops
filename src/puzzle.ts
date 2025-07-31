@@ -14,16 +14,20 @@ export class Puzzle {
   connections: HexBoard<Connections>;
 
   won: boolean;
+  displayOnly: boolean;
 
-  constructor(rules: string) {
+  constructor(rules: string, displayOnly: boolean = false) {
     // This is how Hexagony does it
     let cleanRules = rules.replace(/\s+/g, "");
-    console.log(cleanRules);
     // Unfortunately hexagony uses weird rectangular something coords
+    // so i can't steal their algorithm
     // https://en.wikipedia.org/wiki/Centered_hexagonal_number
     this.radius = Math.ceil((3 + Math.sqrt(12 * cleanRules.length - 3)) / 6) - 1;
 
-    this.hexSize = Math.max(40, Math.min(900 / this.radius / 4, 120));
+    this.displayOnly = displayOnly;
+
+    let scale = this.displayOnly ? 0.3 : 1;
+    this.hexSize = Math.max(40, Math.min(900 / this.radius / 4, 120)) * scale;
     this.origin = { x: CANVAS.width / 2, y: CANVAS.height / 2 };
     this.won = false;
 
@@ -69,15 +73,10 @@ export class Puzzle {
     return Util.axialRound(Util.gridToHex(mousePosAbs, this.hexSize));
   }
 
-  tick() {
-    this.update();
-    this.draw();
-  }
-
   update() {
     let mouseHex = this.hoveredHex();
 
-    if (!this.won) {
+    if (!this.won && !this.displayOnly) {
       if (CONTROLS.mouseDown() && Util.hexDistance(mouseHex) <= this.radius) {
         if (this.dragOrigin != null && !Util.vEq(mouseHex, this.dragOrigin)) {
           let delta = Util.vSub(mouseHex, this.dragOrigin);

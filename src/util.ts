@@ -99,3 +99,16 @@ export function vEq<T extends ACoord>(lhs: T, rhs: T): boolean {
   }
   return true;
 }
+
+export function clamp(x: number, min: number, max: number) {
+  return Math.max(min, Math.min(x, max));
+}
+
+export function drawTextWithNewlines(text: string, x: number, y: number) {
+  let lines = text.split("\n");
+  for (let i = 0; i < lines.length; i++) {
+    let metrics = CTX.measureText(lines[i]);
+    let height = metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent;
+    CTX.fillText(lines[i], x, y + i * height);
+  }
+}
