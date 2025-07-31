@@ -23,7 +23,7 @@ export class Puzzle {
     // https://en.wikipedia.org/wiki/Centered_hexagonal_number
     this.radius = Math.ceil((3 + Math.sqrt(12 * cleanRules.length - 3)) / 6) - 1;
 
-    this.hexSize = Math.max(40, Math.min(1000 / this.radius / 4, 120));
+    this.hexSize = Math.max(40, Math.min(900 / this.radius / 4, 120));
     this.origin = { x: CANVAS.width / 2, y: CANVAS.height / 2 };
     this.won = false;
 
@@ -154,11 +154,22 @@ export class Puzzle {
   }
 
   checkWon(): boolean {
-    let dirs6: (keyof Connections6)[] = ["up", "right", "down", "backUp", "backRight", "backDown"]
+    let dirs6: (keyof Connections6)[] = ["up", "right", "down", "backUp", "backRight", "backDown"];
+    let anyStartPos: HexCoord | null = null;
+
+    let encounteredWithConns = new Set();
     for (let pos of Util.iterHexSpiral(this.radius)) {
       let rule = this.rules.get(pos);
       let conn6 = this.getAllConnections(pos);
       let arity = this.conn6Count(conn6);
+
+      if (arity != 0) {
+        encounteredWithConns.add(HexBoard.makeKey(pos));
+      }
+
+      if (arity != 0 && anyStartPos == null) {
+        anyStartPos = pos;
+      }
       // console.log(pos, conn6, arity, rule);
       // Euler characteristic: no odd nodes.
       if (arity == 1 || arity == 3 || arity == 5) {
@@ -211,11 +222,77 @@ export class Puzzle {
         }
       }
     }
-    return true;
 
+    // Path along. make sure that it forms one loop.
+    let visited = new Set();
+    if (anyStartPos == null) return false;
+    let cursor = { ...anyStartPos };
+    let entryDir: keyof Connections6 | null = null;
+    let originalExitDir: keyof Connections6 | null = null;
+
+    for (let i = 0; ; i++) {
+      let nextDir: keyof Connections6 | null = null;
+
+      visited.add(HexBoard.makeKey(cursor));
+
+      let conns = this.getAllConnections(cursor);
+      let arity = this.conn6Count(conns);
+      if (arity == 2) {
+        // Go out "the other way"
+        for (let dir of dirs6) {
+          if (conns[dir] && entryDir != this.flipDir6(dir)) {
+            nextDir = dir;
+            break;
+          }
+        }
+      } else {
+        // Hopefully arity == 4
+        if (entryDir == null) {
+          // Just pick something
+          for (let dir of dirs6) {
+            if (conns[dir]) {
+              nextDir = dir;
+              break;
+            }
+          }
+        } else {
+          nextDir = entryDir;
+        }
+      }
+
+      // Move the cursor
+      let cursor2 = { q: cursor.q, r: cursor.r };
+      if (nextDir == "up") { cursor2.q += 1; cursor2.r -= 1; }
+      else if (nextDir == "right") { cursor2.q += 1; }
+      else if (nextDir == "down") { cursor2.r += 1; }
+      else if (nextDir == "backUp") { cursor2.r -= 1; }
+      else if (nextDir == "backRight") { cursor2.q -= 1; }
+      else if (nextDir == "backDown") { cursor2.q -= 1; cursor2.r += 1; }
+
+      // Shuffle it all down
+      entryDir = nextDir;
+      if (originalExitDir == null) {
+        originalExitDir = nextDir;
+      }
+
+      if (i != 0 && Util.vEq(cursor, anyStartPos) && originalExitDir == nextDir) {
+        // We're about to do what we started with.
+        break;
+      }
+
+      cursor = cursor2;
+    }
+
+    if (visited.size != encounteredWithConns.size) {
+      return false;
+    }
+
+    return true;
   }
 
   draw() {
+    CTX.fillStyle = "white";
+    CTX.fillRect(0, 0, CANVAS.width, CANVAS.height);
     let mouseHex = this.hoveredHex();
 
     for (let pos of Util.iterHexSpiral(this.radius)) {

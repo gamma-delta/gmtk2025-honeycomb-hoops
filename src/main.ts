@@ -8,15 +8,21 @@ export const CTX = CANVAS.getContext("2d") as CanvasRenderingContext2D;
 export const CONTROLS = new ControlsHandler(CANVAS);
 
 const puzzle = new Puzzle(`
- K K
-. X .
- . .
+  . O .
+ . . . .
+K . . O .
+ K X X .
+  K . .
 `);
+// const puzzle = new Puzzle(`
+//   . . .
+//  . . . K
+// K K . K K
+//  K . . .
+//   . . .
+// `);
 
 function mainLoop() {
-  CTX.fillStyle = "white";
-  CTX.fillRect(0, 0, CANVAS.width, CANVAS.height);
-
   puzzle.tick();
 }
 
