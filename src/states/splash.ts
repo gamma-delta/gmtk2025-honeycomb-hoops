@@ -11,7 +11,7 @@ export class StateSplash implements GameState {
   update(): StateTransition {
     this.ticksAlive += 1;
 
-    if (CONTROLS.mouseDown()) {
+    if (CONTROLS.mouseClicked()) {
       return {
         type: "swap",
         state: new StatePlayPuzzle(puzzlePacks[0]),

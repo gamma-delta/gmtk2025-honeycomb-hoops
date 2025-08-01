@@ -12,6 +12,7 @@ const stateStack = new StateStack(new StateSplash());
 
 function mainLoop() {
   stateStack.tick();
+  CONTROLS.tick();
 }
 
 window.setInterval(mainLoop, 1000 / 60);

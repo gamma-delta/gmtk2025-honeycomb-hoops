@@ -15,6 +15,7 @@ export class Puzzle {
 
   won: boolean;
   displayOnly: boolean;
+  eraseMode: boolean;
 
   constructor(rules: string, displayOnly: boolean = false) {
     // This is how Hexagony does it
@@ -25,6 +26,7 @@ export class Puzzle {
     this.radius = Math.ceil((3 + Math.sqrt(12 * cleanRules.length - 3)) / 6) - 1;
 
     this.displayOnly = displayOnly;
+    this.eraseMode = false;
 
     let scale = this.displayOnly ? 0.3 : 1;
     this.hexSize = Math.max(40, Math.min(900 / this.radius / 4, 120)) * scale;
@@ -108,7 +110,11 @@ export class Puzzle {
             right: false,
             down: false,
           });
-          conn[dirKey] = !conn[dirKey];
+          if (this.eraseMode) {
+            conn[dirKey] = false;
+          } else {
+            conn[dirKey] = !conn[dirKey];
+          }
 
           let youWin = this.checkWon();
           if (youWin) {
