@@ -1,6 +1,7 @@
 import { CANVAS, CONTROLS, CTX } from "../main.js";
 import { Puzzle } from "../puzzle.js";
 import { PuzzlePack, puzzlePacks } from "../puzzleList.js";
+import { SOUNDS } from "../sounds.js";
 import { GameState, StateTransition } from "../states.js"
 import * as Util from "../util.js";
 import { ClickButton, Widget } from "../widget.js";
@@ -81,8 +82,14 @@ class EraseModeButton extends Widget<StatePlayPuzzle> {
     )
   }
   onClick(): void {
-    if (!this.state.puzzle.won)
-      this.state.puzzle.eraseMode = !this.state.puzzle.eraseMode;
+    if (!this.state.puzzle.won) {
+      let em = this.state.puzzle.eraseMode;
+      this.state.puzzle.eraseMode = !em;
+      if (em)
+        SOUNDS.button_down.pickAndPlay();
+      else
+        SOUNDS.button_up.pickAndPlay();
+    }
   }
   draw(): void {
     let darkColor;
@@ -111,6 +118,7 @@ class BackToLevelSelectButton extends Widget<StatePlayPuzzle> {
     )
   }
   onClick(): void {
+    SOUNDS.button_down.pickAndPlay();
     this.state.exitBack = true;
   }
 
@@ -122,7 +130,7 @@ class BackToLevelSelectButton extends Widget<StatePlayPuzzle> {
       darkColor = "#999"
     }
     this.outline(
-      "#EBB",
+      "white",
       darkColor,
     );
 
@@ -142,6 +150,7 @@ class NextLevelButton extends Widget<StatePlayPuzzle> {
   onClick(): void {
     if (this.state.puzzle.won) {
       this.state.goToNextPuzzle = true;
+      SOUNDS.button_down.pickAndPlay();
     }
   }
   draw(): void {

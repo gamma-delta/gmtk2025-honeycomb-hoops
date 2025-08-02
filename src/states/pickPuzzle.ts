@@ -1,6 +1,7 @@
 import { CANVAS, CONTROLS, CTX } from "../main.js";
 import { Puzzle } from "../puzzle.js";
 import { PuzzlePack, puzzlePacks } from "../puzzleList.js";
+import { SOUNDS } from "../sounds.js";
 import { GameState, StateTransition } from "../states.js"
 import * as Util from "../util.js";
 import { ClickButton, Widget } from "../widget.js";
@@ -72,6 +73,7 @@ class LevelButton extends Widget<StatePickPuzzle> {
 
   onClick(): void {
     this.state.pickedIndex = this.idx;
+    SOUNDS.button_down.pickAndPlay();
   }
   draw(): void {
     this.outline("white", this.isHovered ? "#222" : "#999", 2);

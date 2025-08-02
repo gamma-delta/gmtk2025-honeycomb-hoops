@@ -1,4 +1,5 @@
 import { CANVAS, CONTROLS, CTX } from "./main.js";
+import { SOUNDS } from "./sounds.js";
 import { GridCoord, HexCoord } from "./util.js";
 import * as Util from "./util.js";
 
@@ -111,13 +112,17 @@ export class Puzzle {
             down: false,
           });
           if (this.eraseMode) {
+            if (conn[dirKey])
+              SOUNDS.erase.pickAndPlay();
             conn[dirKey] = false;
           } else {
+            SOUNDS.tap.pickAndPlay();
             conn[dirKey] = !conn[dirKey];
           }
 
           let youWin = this.checkWon();
           if (youWin) {
+            SOUNDS.win.pickAndPlay();
             this.won = true;
           }
         }
