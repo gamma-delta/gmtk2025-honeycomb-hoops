@@ -100,4 +100,25 @@ The source code is available
 on Github. I apologize for the
 hideousness of src/puzzle.ts.`,
   },
+  {
+    source: `
+  K . .
+ . O . .
+. . . X K
+ . O . .
+  K . . `,
+    sidebar: `This is also the first
+game that I tried to put
+"juice" into. This is why I
+decided to make it so minimal;
+I didn't want to try to make
+something bombastic because
+that would be too hard.
+
+If the sound effects feel
+familiar somehow, that's
+because they're from
+Google's Material Design
+framework. (CC-BY 4.0!)`,
+  },
 ]

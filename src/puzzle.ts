@@ -242,7 +242,8 @@ export class Puzzle {
     let entryDir: keyof Connections6 | null = null;
     let originalExitDir: keyof Connections6 | null = null;
 
-    for (let i = 0; ; i++) {
+    let i = 1000;
+    for (; i > 0; i--) {
       let nextDir: keyof Connections6 | null = null;
 
       visited.add(HexBoard.makeKey(cursor));
@@ -287,12 +288,18 @@ export class Puzzle {
         originalExitDir = nextDir;
       }
 
-      if (i != 0 && Util.vEq(cursor, anyStartPos) && originalExitDir == nextDir) {
+      if (i != 1000 && Util.vEq(cursor, anyStartPos) && originalExitDir == nextDir) {
         // We're about to do what we started with.
         break;
       }
 
       cursor = cursor2;
+    }
+    // ran out of checking time
+    // this code isn't perfect and sometimes loops forever
+    // so this is a failsafe
+    if (i == 0) {
+      return false;
     }
 
     if (visited.size != encounteredWithConns.size) {
