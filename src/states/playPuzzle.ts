@@ -5,6 +5,7 @@ import { SOUNDS } from "../sounds.js";
 import { GameState, StateTransition } from "../states.js"
 import * as Util from "../util.js";
 import { ClickButton, Widget } from "../widget.js";
+import { StateYouWin } from "./win.js";
 
 const BUTTON_WIDTH = 250;
 const BUTTON_HEIGHT = 80;
@@ -38,10 +39,16 @@ export class StatePlayPuzzle implements GameState {
 
   update(): StateTransition {
     if (this.goToNextPuzzle) {
-      // TODO: what to do if you win every puzzle
-      return {
-        type: "swap",
-        state: new StatePlayPuzzle(this.puzzleIndex + 1),
+      if (this.puzzleIndex == puzzlePacks.length - 1) {
+        return {
+          type: "swap",
+          state: new StateYouWin(),
+        }
+      } else {
+        return {
+          type: "swap",
+          state: new StatePlayPuzzle(this.puzzleIndex + 1),
+        }
       }
     } else if (this.exitBack) {
       return { type: "pop" };

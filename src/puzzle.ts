@@ -94,7 +94,7 @@ export class Puzzle {
             origin = mouseHex;
             posDelta = { q: -delta.q, r: -delta.r };
           }
-          let dirKey: keyof Connections;
+          let dirKey: keyof Connections | null;
           if (posDelta.q == 1 && posDelta.r == -1) {
             dirKey = "up";
           } else if (posDelta.q == 1 && posDelta.r == 0) {
@@ -103,21 +103,23 @@ export class Puzzle {
             dirKey = "down";
           } else {
             console.log("Invalid drag delta.", { delta, positive, origin, posDelta });
-            dirKey = "right";
+            dirKey = null;
           }
 
-          let conn = this.connections.getOrInsert(origin, {
-            up: false,
-            right: false,
-            down: false,
-          });
-          if (this.eraseMode) {
-            if (conn[dirKey])
-              SOUNDS.erase.pickAndPlay();
-            conn[dirKey] = false;
-          } else {
-            SOUNDS.tap.pickAndPlay();
-            conn[dirKey] = !conn[dirKey];
+          if (dirKey != null) {
+            let conn = this.connections.getOrInsert(origin, {
+              up: false,
+              right: false,
+              down: false,
+            });
+            if (this.eraseMode) {
+              if (conn[dirKey])
+                SOUNDS.erase.pickAndPlay();
+              conn[dirKey] = false;
+            } else {
+              SOUNDS.tap.pickAndPlay();
+              conn[dirKey] = !conn[dirKey];
+            }
           }
 
           let youWin = this.checkWon();
