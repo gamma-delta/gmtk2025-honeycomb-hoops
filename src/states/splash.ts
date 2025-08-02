@@ -12,9 +12,10 @@ export class StateSplash implements GameState {
     this.ticksAlive += 1;
 
     if (CONTROLS.mouseClicked()) {
+      // TODO: push level select
       return {
-        type: "swap",
-        state: new StatePlayPuzzle(puzzlePacks[0]),
+        type: "push",
+        state: new StatePlayPuzzle(0),
       };
     } else {
       return null;

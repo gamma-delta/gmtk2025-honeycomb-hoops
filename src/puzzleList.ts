@@ -48,19 +48,35 @@ if I do my job right.`,
  . .
 . X K
  K . `,
-    sidebar: `Finally, black squares
-require the line to cross itself on
+    sidebar: `Finally, black squares require the
+line to cross itself exactly once over
 them. The line cannot cross anywhere
 else! And remember that it still must
 form one continuous loop.`,
   },
   {
     source: `
+  K K K
+ . X O .
+. X . . .
+ . O K O
+  . . . `,
+    sidebar: `Welcome to the first non-tutorial level!
+Let's try something harder.`
+  },
+  {
+    source: `
   . O .
- . . . .
-K . . O .
- K X X .
-  K . . `,
-    sidebar: "",
-  }
+ . X . .
+K O K . K
+ . K . .
+  . O K `,
+    sidebar: `By the way, if you want to
+make your own hex-based games,
+check out RedBlobGames' hex tutorial.
+It's everything you could ever want
+to know about hexagons. This game, as
+well as many of my other projects,
+would be impossible without his work.`,
+  },
 ]

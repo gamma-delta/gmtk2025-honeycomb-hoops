@@ -47,11 +47,11 @@ export abstract class Widget<S extends GameState> {
     }
   }
 
-  outline(fill: string, stroke: string) {
-    CTX.fillStyle = "white";
+  outline(fill: string, stroke: string, width: number = 4) {
+    CTX.fillStyle = fill;
     CTX.fillRect(this.x, this.y, this.w, this.h);
-    CTX.strokeStyle = "black";
-    CTX.lineWidth = 4;
+    CTX.strokeStyle = stroke;
+    CTX.lineWidth = width;
     CTX.strokeRect(this.x, this.y, this.w, this.h);
   }
   centerText(text: string) {

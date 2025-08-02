@@ -334,7 +334,7 @@ export class Puzzle {
       CTX.lineCap = "butt";
       CTX.beginPath();
       CTX.strokeStyle = "#BBB";
-      CTX.lineWidth = 4;
+      CTX.lineWidth = 5;
       CTX.stroke(path);
 
       // Draw rules
