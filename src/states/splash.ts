@@ -3,6 +3,7 @@ import { Puzzle } from "../puzzle.js";
 import { puzzlePacks } from "../puzzleList.js";
 import { GameState, StateTransition } from "../states.js"
 import * as Util from "../util.js";
+import { StatePickPuzzle } from "./pickPuzzle.js";
 import { StatePlayPuzzle } from "./playPuzzle.js";
 
 export class StateSplash implements GameState {
@@ -12,10 +13,9 @@ export class StateSplash implements GameState {
     this.ticksAlive += 1;
 
     if (CONTROLS.mouseClicked()) {
-      // TODO: push level select
       return {
         type: "push",
-        state: new StatePlayPuzzle(0),
+        state: new StatePickPuzzle(),
       };
     } else {
       return null;

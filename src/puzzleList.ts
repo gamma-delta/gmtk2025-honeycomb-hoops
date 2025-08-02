@@ -56,21 +56,21 @@ form one continuous loop.`,
   },
   {
     source: `
-  K K K
- . X O .
-. X . . .
- . O K O
-  . . . `,
-    sidebar: `Welcome to the first non-tutorial level!
-Let's try something harder.`
-  },
-  {
-    source: `
   . O .
  . X . .
 K O K . K
  . K . .
   . O K `,
+    sidebar: `Welcome to the first non-tutorial level!
+Let's try something harder.`
+  },
+  {
+    source: `
+  K K K
+ . X O .
+. X . . .
+ . O K O
+  . . . `,
     sidebar: `By the way, if you want to
 make your own hex-based games,
 check out RedBlobGames' hex tutorial.
@@ -78,5 +78,26 @@ It's everything you could ever want
 to know about hexagons. This game, as
 well as many of my other projects,
 would be impossible without his work.`,
+  },
+  {
+    source: `
+  . . .
+ . . . O
+K X X X K
+ . . . .
+  . O . `,
+    sidebar: `This game is made
+in Typescript, and uses the
+browser's canvas API. In other
+words, there's no game engine!
+I like making jam games like this
+because there's nothing for the
+user to download, and it works
+on everyone's computers
+regardless of their OS.
+
+The source code is available
+on Github. I apologize for the
+hideousness of src/puzzle.ts.`,
   },
 ]

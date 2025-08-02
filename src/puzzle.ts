@@ -17,7 +17,7 @@ export class Puzzle {
   displayOnly: boolean;
   eraseMode: boolean;
 
-  constructor(rules: string, displayOnly: boolean = false) {
+  constructor(rules: string, displayOnly: boolean = false, origin: GridCoord | null = null) {
     // This is how Hexagony does it
     let cleanRules = rules.replace(/\s+/g, "");
     // Unfortunately hexagony uses weird rectangular something coords
@@ -28,9 +28,9 @@ export class Puzzle {
     this.displayOnly = displayOnly;
     this.eraseMode = false;
 
-    let scale = this.displayOnly ? 0.3 : 1;
+    let scale = this.displayOnly ? 0.2 : 1;
     this.hexSize = Math.max(40, Math.min(900 / this.radius / 4, 120)) * scale;
-    this.origin = { x: CANVAS.width / 2, y: CANVAS.height / 2 };
+    this.origin = origin ?? { x: CANVAS.width / 2, y: CANVAS.height / 2 };
     this.won = false;
 
     this.rules = new HexBoard();
@@ -296,8 +296,6 @@ export class Puzzle {
   }
 
   draw() {
-    CTX.fillStyle = "white";
-    CTX.fillRect(0, 0, CANVAS.width, CANVAS.height);
     let mouseHex = this.hoveredHex();
 
     for (let pos of Util.iterHexSpiral(this.radius)) {
@@ -320,7 +318,7 @@ export class Puzzle {
       }
 
       // Draw outline over shading
-      let hoverThis = pos.q == mouseHex.q && pos.r == mouseHex.r;
+      let hoverThis = (pos.q == mouseHex.q && pos.r == mouseHex.r) && !this.displayOnly;
       let hexColor;
       if (this.won) {
         hexColor = hoverThis ? "#BDB" : "#BFB";
