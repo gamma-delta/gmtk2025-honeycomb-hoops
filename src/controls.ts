@@ -13,10 +13,12 @@ export class ControlsHandler {
       let rect = canvas.getBoundingClientRect();
       self.#mouseX = evt.clientX - rect.left;
       self.#mouseY = evt.clientY - rect.top;
+      evt.preventDefault();
     });
-    canvas.addEventListener("pointerdown", function(_) {
+    canvas.addEventListener("pointerdown", function(evt) {
       self.#mouseDown = true;
       self.#mouseClicked = true;
+      evt.preventDefault();
     });
     canvas.addEventListener("pointerup", function(_) {
       self.#mouseDown = false;

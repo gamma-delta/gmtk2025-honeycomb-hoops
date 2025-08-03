@@ -549,6 +549,39 @@ out of things to talk about.`,
   {
     source: `
    . . . .
+  . . . . .
+ . O . K . .
+. . . 5 K . .
+ . O . K . .
+  . X . . .
+   . . . .`,
+    sidebar: `Water update:
+I got some water.
+This has been your petrak@
+water update. Stay tuned for
+petrak@ food updates.`,
+  },
+  {
+    source: `
+   K . . K
+  . K . K .
+ . . . . . .
+K K . 5 . K K
+ . . . . . .
+  . K . K .
+   K . . K`,
+    sidebar: `Food update:
+I got some food.
+(Peanut butter and honey sandwich.)
+
+Adding a sidebar message
+to each puzzle felt like
+a much better idea about
+20 puzzles ago.`,
+  },
+  {
+    source: `
+   . . . .
   . 5 . . .
  . . . O . .
 . . O X . . .
