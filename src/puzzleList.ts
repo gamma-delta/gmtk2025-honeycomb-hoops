@@ -9,7 +9,7 @@ export const puzzlePacks: PuzzlePack[] = [
  . .
 . O .
  . . `,
-    sidebar: `Welcome to Hexagon Hoops!
+    sidebar: `Welcome to Honeycomb Hoops!
 This is a pencil-and-paper-style game
 inspired by Masyu (and not, as the
 name suggests, a cereal brand).
@@ -47,7 +47,11 @@ require the line to go straight through.)`,
 line to cross itself exactly once over
 them. The line cannot cross anywhere
 else! And remember that it still must
-form one continuous loop.`,
+form one continuous loop.
+
+The line has to make an "X" shape,
+not a "K" or the inside of a
+peace sign.`,
   },
   {
     source: `
@@ -98,17 +102,53 @@ hideousness of src/puzzle.ts.`,
   {
     source: `
   . . .
+ . X X .
+. X . X .
+ . . X .
+  . . . `,
+    sidebar: `If you like this
+game and haven't heard of
+Masyu, I highly recommend it.
+You can find free puzzles online.
+
+It's a lot like this game,
+but designed by someone who
+designs pencil and paper games
+for a living.
+
+Which is to say, it's a lot
+like this game but better.`,
+  },
+  {
+    source: `
+  . . .
+ . X . .
+K K K K K
+ . . . .
+  . O . `,
+    sidebar: `Seriously, I can't
+recommend Masyu enough. Also,
+I'm running out of things to
+put in these sidebars.`,
+  },
+
+  // Row 2
+  {
+    source: `
+  . . .
  . X . .
 . . 6 . .
  . . . .
   . . . `,
-    sidebar: `Anyways, here's
-the last mechanic. Numbers
-must not be drawn on. Instead,
-the line must pass through
-the hexes circling it the given
-number of times, always "hugging"
-the number.`,
+    sidebar: `Here's the last mechanic.
+Numbers must not be drawn on.
+Instead, the line must cross
+between the hexes circling
+it the given number of times,
+always "hugging" the number.
+
+I recognize this makes no sense,
+so here's a few tutorial puzzles.`,
   },
   {
     source: `
@@ -124,7 +164,13 @@ be surrounded on all sides.
 A 3 needs to be surrounded
 on exactly 3 contiguous
 sides, like it's sitting
-in a little cup.`,
+in a little cup.
+
+Any other lines surrounding
+the number is fine; it just
+needs to have (at least)
+one stretch of that many
+contiguous hugging segments.`,
   },
   {
     source: `
@@ -133,20 +179,48 @@ in a little cup.`,
 . . . . 1
  . X . .
   . . . `,
-    sidebar: `One more tutorial with
-the numbers. If you want to
+    sidebar: `If you want to
 read or play the previous
 tutorials, just go back to
-the level select. Or skip
-to the last puzzle, I guess`,
+the level select.
+
+It helps to look at the
+boundaries between hexes
+when working with numbers.
+Of the hexes surrounding
+a number, you want the line
+to pass through that many
+hex walls.`,
+  },
+  {
+    source: `
+  . K .
+ . . O .
+. O 1 . .
+ K . O K
+  . . . `,
+    sidebar: `One more number
+tutorial for good luck.
+
+Thanks to members of my
+Discord server for giving me
+feedback. (The feedback was
+"The numbers, Petra, what
+do they mean?")
+
+Your solution will have the
+line "hugging" the 1 several
+times. This is OK as long
+as it only does so for 1
+tile at a time.`,
   },
   {
     source: `
   . . .
- . . . O
-K X X X K
+ . . . 3
+1 . 1 . .
  . . . .
-  . O . `,
+  K K K `,
     sidebar: `Back to these
 sidebars being kibitzing.
 
@@ -185,11 +259,11 @@ jaggy pixels.`,
   },
   {
     source: `
-  K . .
- . O . .
-. . . X K
- . O . .
-  K . . `,
+  . . .
+ . 4 . .
+. . . 2 .
+ . . . .
+  . 3 . `,
     sidebar: `I implemented numbers
 last, which is why there's
 a lot of puzzles without
@@ -242,13 +316,26 @@ puzzles can be so hard
 even on a small grid
 with few pieces.`,
   },
+
+  // Row 3
+  {
+    source: `
+  K . .
+ . O . .
+. . . X K
+ . O . .
+  K . . `,
+    sidebar: `Row 3 of puzzles!
+There's no new mechanic
+here, just more puzzles.`
+  },
   {
     source: `
   . . .
- . . . 3
-1 . 1 . .
+ . . . O
+K X X X K
  . . . .
-  K K K `,
+  . O . `,
     sidebar: `Non-video game design
 is something I'm quite
 interested by, and I
@@ -270,15 +357,15 @@ in this topic too :]`,
     source: `
   K . K
  . O . .
-K . X K K
- O . . O
+K . X K 1
+ O . . .
   . O . `,
     sidebar: `For a while I was
 considering making this game
 bee-themed, where you're figuring
 out the little bee dance you have
 to do to tell your hive-mates
-where they honey is, or whatever.
+where the honey is, or whatever.
 
 I dropped the idea pretty
 quickly because I did not want
@@ -335,7 +422,7 @@ on the world seed).`,
     source: `
   . . .
  . X . .
-. . O K .
+. . O 3 .
  . X . .
   . . . `,
     sidebar: `A lot of these
@@ -345,7 +432,11 @@ I did my best to make
 sure that solving each
 one is interesting, even
 if the solution isn't
-unique.`,
+unique.
+
+Implementing numbers
+made enforcing one
+solution much easier.`,
   },
   {
     source: `
@@ -380,6 +471,8 @@ at it. (Unless that's not
 allowed, in which case, I'm
 still rooting for you!)`,
   },
+
+  // Row 3
   {
     source: `
    K . . K
@@ -419,21 +512,39 @@ up and drink some water!`,
   },
   {
     source: `
-   . . . .
-  . . . O .
- . . . . . .
-. X 6 X 6 . .
- . . . . . .
-  . . . K .
+   1 . . 2
+  . . . X .
+ . . . X . .
+2 . . X . . 1
+ . . X . . .
+  . X . . .
+   . . . 2`,
+    sidebar: `Come to think
+of it I should go get
+some water too.`,
+  },
+  {
+    source: `
+   . . . K
+  . 0 0 . .
+ . 1 . . . .
+. 0 . K . . .
+ . 1 . O . .
+  . 0 1 . .
    . . . K`,
-    sidebar: `I'm running out of
-things to say, frankly.
-
-I hope you're having a
-good day. If you've been
-binging a bunch of the
-games, make sure to get
-up and drink some water!`,
+    sidebar: `Hexxy`,
+  },
+  {
+    source: `
+   . . . .
+  . K . . .
+ . 1 . . . .
+. K . X . K .
+ . . . . 1 .
+  . 5 . K .
+   . . . .`,
+    sidebar: `Now I'm REALLY
+out of things to talk about.`,
   },
   {
     source: `

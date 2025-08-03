@@ -32,6 +32,7 @@ export class StatePlayPuzzle implements GameState {
     let columnLhs = CANVAS.width - BUTTON_WIDTH * 1.5;
     let buttonStartY = centerY - BUTTON_HEIGHT / 2;
 
+    this.widgets.push(new WhatLevelMarker(this, columnLhs, buttonStartY - 120));
     this.widgets.push(new EraseModeButton(this, columnLhs, buttonStartY));
     this.widgets.push(new BackToLevelSelectButton(this, columnLhs, buttonStartY + 120));
     this.widgets.push(new NextLevelButton(this, columnLhs, buttonStartY + 240));
@@ -171,3 +172,21 @@ class NextLevelButton extends Widget<StatePlayPuzzle> {
     }
   }
 }
+class WhatLevelMarker extends Widget<StatePlayPuzzle> {
+  constructor(state: StatePlayPuzzle, x: number, y: number) {
+    super(
+      state,
+      x, y, BUTTON_WIDTH, BUTTON_HEIGHT,
+    )
+  }
+  onClick(): void {
+  }
+  draw(): void {
+    CTX.textAlign = "center";
+    CTX.font = `24px "Courier New", sans-serif`;
+    CTX.fillStyle = "#222";
+
+    this.centerText("Level #" + (this.state.puzzleIndex + 1));
+  }
+}
+
