@@ -114,12 +114,16 @@ export class Puzzle {
               right: false,
               down: false,
             });
+
             if (this.eraseMode) {
-              if (conn[dirKey])
-                SOUNDS.erase.pickAndPlay();
               conn[dirKey] = false;
+              SOUNDS.erase.pickAndPlay();
             } else {
-              SOUNDS.tap.pickAndPlay();
+              // TODO: does it sound better to play the erase
+              // sonud when erasing in normal mode?
+              // I don't think so, esp because
+              // the sound keeps clipping itself.
+              SOUNDS.tap.pickAndPlay()
               conn[dirKey] = !conn[dirKey];
             }
           }

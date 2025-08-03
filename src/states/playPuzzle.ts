@@ -32,8 +32,9 @@ export class StatePlayPuzzle implements GameState {
     let columnLhs = CANVAS.width - BUTTON_WIDTH * 1.5;
     let buttonStartY = centerY - BUTTON_HEIGHT / 2;
 
-    this.widgets.push(new WhatLevelMarker(this, columnLhs, buttonStartY - 120));
-    this.widgets.push(new EraseModeButton(this, columnLhs, buttonStartY));
+    this.widgets.push(new WhatLevelMarker(this, columnLhs, buttonStartY - 240));
+    this.widgets.push(new EraseModeButton(this, columnLhs, buttonStartY - 120));
+    this.widgets.push(new EraseEverythingButton(this, columnLhs, buttonStartY));
     this.widgets.push(new BackToLevelSelectButton(this, columnLhs, buttonStartY + 120));
     this.widgets.push(new NextLevelButton(this, columnLhs, buttonStartY + 240));
   }
@@ -116,6 +117,34 @@ class EraseModeButton extends Widget<StatePlayPuzzle> {
     CTX.font = `24px "Courier New", sans-serif`;
     CTX.fillStyle = darkColor;
     this.centerText(this.state.puzzle.eraseMode ? "Eraser: On" : "Eraser: Off");
+  }
+}
+class EraseEverythingButton extends Widget<StatePlayPuzzle> {
+  constructor(state: StatePlayPuzzle, x: number, y: number) {
+    super(
+      state,
+      x, y, BUTTON_WIDTH, BUTTON_HEIGHT,
+    )
+  }
+  onClick(): void {
+    if (!this.state.puzzle.won) {
+      this.state.puzzle.connections.storage.clear();
+      SOUNDS.erase.pickAndPlay();
+    }
+  }
+  draw(): void {
+    let darkColor;
+    if (!this.state.puzzle.won && this.isHovered) {
+      darkColor = "#444"
+    } else {
+      darkColor = "#999"
+    }
+    this.outline("white", darkColor);
+
+    CTX.textAlign = "center";
+    CTX.font = `24px "Courier New", sans-serif`;
+    CTX.fillStyle = darkColor;
+    this.centerText("Clear Board");
   }
 }
 class BackToLevelSelectButton extends Widget<StatePlayPuzzle> {
