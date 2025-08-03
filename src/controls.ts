@@ -1,4 +1,4 @@
-import { GridCoord } from "./util";
+import { GridCoord } from "./util.js";
 
 export class ControlsHandler {
   #mouseX: number = 0;
