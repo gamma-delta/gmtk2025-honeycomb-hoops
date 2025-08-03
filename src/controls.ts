@@ -9,16 +9,16 @@ export class ControlsHandler {
 
   constructor(canvas: HTMLCanvasElement) {
     let self = this;
-    canvas.addEventListener("mousemove", function(evt) {
+    canvas.addEventListener("pointermove", function(evt) {
       let rect = canvas.getBoundingClientRect();
       self.#mouseX = evt.clientX - rect.left;
       self.#mouseY = evt.clientY - rect.top;
     });
-    canvas.addEventListener("mousedown", function(_) {
+    canvas.addEventListener("pointerdown", function(_) {
       self.#mouseDown = true;
       self.#mouseClicked = true;
     });
-    canvas.addEventListener("mouseup", function(_) {
+    canvas.addEventListener("pointerup", function(_) {
       self.#mouseDown = false;
       self.#mouseClicked = false;
     });
