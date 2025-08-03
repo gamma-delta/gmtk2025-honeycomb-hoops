@@ -53,6 +53,8 @@ export class Puzzle {
       let ch = cleanRules.charAt(i);
       if (ch == "K" || ch == "O" || ch == "X") {
         this.rules.set(coord, ch);
+      } else if (!isNaN(Number(ch))) {
+        this.rules.set(coord, Number(ch));
       }
 
       if (ltr >= across - 1) {
@@ -169,7 +171,8 @@ export class Puzzle {
     let dirs6: (keyof Connections6)[] = ["up", "right", "down", "backUp", "backRight", "backDown"];
     let anyStartPos: HexCoord | null = null;
 
-    let encounteredWithConns = new Set();
+    let encounteredWithConns = new Set<string>();
+    let numberPositions = new Map<string, number>();
     for (let pos of Util.iterHexSpiral(this.radius)) {
       let rule = this.rules.get(pos);
       let conn6 = this.getAllConnections(pos);
@@ -199,7 +202,13 @@ export class Puzzle {
         }
       }
 
-      if (rule == "K") {
+      if (typeof rule == "number") {
+        // Check these afterwards
+        if (arity != 0) {
+          return false;
+        }
+        numberPositions.set(HexBoard.makeKey(pos), rule);
+      } else if (rule == "K") {
         if (arity != 2) {
           return false;
         }
@@ -232,6 +241,49 @@ export class Puzzle {
         if (crossesSelf) {
           return false;
         }
+      }
+    }
+
+    // Check numbers
+    for (let [posStr, puzzlePieceNum] of numberPositions) {
+      let pos = HexBoard.parseKey(posStr);
+      let arounding: [keyof Connections6, keyof Connections6][] = [
+        ["up", "down"],
+        ["right", "backDown"],
+        ["down", "backRight"],
+        ["backDown", "backUp"],
+        ["backRight", "up"],
+        ["backUp", "right"]
+      ];
+      let isOns = arounding.map(([delta, point]) => {
+        let neighborPos = Util.vAdd(pos, connsToDir[delta]);
+        let isOn = this.getAllConnections(neighborPos)[point];
+        return isOn;
+      });
+
+      // Check for longest run
+      // Thanks alwinfy for the algorithm help
+      let runLength: number;
+      let firstFalseIdx = isOns.findIndex(b => b == false);
+      if (firstFalseIdx == -1) {
+        runLength = 6;
+      } else {
+        let maxRun = 0;
+        let run = 0;
+        for (let i = 0; i < 6; i++) {
+          let loopyIndex = (i + firstFalseIdx) % 6;
+          if (isOns[loopyIndex]) {
+            run += 1;
+            maxRun = Math.max(maxRun, run);
+          } else {
+            run = 0
+          }
+        }
+        runLength = maxRun;
+      }
+
+      if (runLength != puzzlePieceNum) {
+        return false;
       }
     }
 
@@ -274,13 +326,8 @@ export class Puzzle {
       }
 
       // Move the cursor
-      let cursor2 = { q: cursor.q, r: cursor.r };
-      if (nextDir == "up") { cursor2.q += 1; cursor2.r -= 1; }
-      else if (nextDir == "right") { cursor2.q += 1; }
-      else if (nextDir == "down") { cursor2.r += 1; }
-      else if (nextDir == "backUp") { cursor2.r -= 1; }
-      else if (nextDir == "backRight") { cursor2.q -= 1; }
-      else if (nextDir == "backDown") { cursor2.q -= 1; cursor2.r += 1; }
+      let delta = connsToDir[nextDir!];
+      let cursor2 = Util.vAdd(cursor, delta);
 
       // Shuffle it all down
       entryDir = nextDir;
@@ -377,6 +424,16 @@ export class Puzzle {
         CTX.rect(worldspacePos.x - delta, worldspacePos.y - delta,
           delta * 2, delta * 2);
         CTX.stroke();
+      } else if (typeof rule == "number") {
+        CTX.fillStyle = "#222";
+        CTX.textAlign = "center";
+        CTX.font = (this.hexSize) + `px "Courier New", sans-serif`;
+        let metrics = CTX.measureText(rule.toString());
+        CTX.fillText(
+          rule.toString(),
+          worldspacePos.x,
+          worldspacePos.y + (metrics.actualBoundingBoxAscent) / 2
+        );
       }
     }
 
@@ -467,7 +524,7 @@ class HexBoard<T> {
   }
 }
 
-type PuzzlePiece = "K" | "O" | "X";
+type PuzzlePiece = "K" | "O" | "X" | number;
 
 type Connections = {
   /*
@@ -492,3 +549,12 @@ type Connections6 = {
   backRight: boolean,
   backDown: boolean,
 }
+
+const connsToDir: { [_ in keyof Connections6]: HexCoord } = {
+  up: { q: 1, r: -1 },
+  right: { q: 1, r: 0 },
+  down: { q: 0, r: 1 },
+  backUp: { q: 0, r: -1 },
+  backRight: { q: -1, r: 0 },
+  backDown: { q: -1, r: 1 }
+};

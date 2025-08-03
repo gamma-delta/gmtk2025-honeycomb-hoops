@@ -162,7 +162,7 @@ class NextLevelButton extends Widget<StatePlayPuzzle> {
   }
   draw(): void {
     if (this.state.puzzle.won) {
-      this.outline("white", "#222");
+      this.outline("#BFB", "#222");
 
       CTX.textAlign = "center";
       CTX.font = `24px "Courier New", sans-serif`;

@@ -7,7 +7,7 @@ import * as Util from "../util.js";
 import { ClickButton, Widget } from "../widget.js";
 import { StatePlayPuzzle } from "./playPuzzle.js";
 
-const PUZZLES_ACROSS = 6;
+const PUZZLES_ACROSS = 8;
 const PADDING = 20;
 
 export class StatePickPuzzle implements GameState {
